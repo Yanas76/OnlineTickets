@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  onlinetickets:
+    image: ${DOCKER_REGISTRY-}onlinetickets
+    build:
+      context: .
+      dockerfile: OnlineTickets\Dockerfile
