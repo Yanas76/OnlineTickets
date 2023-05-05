@@ -13,30 +13,31 @@
         <input type="text" id="add-name" placeholder="Name">
         <input type="text" id="add-emailAddress" placeholder="Email Address">
         <input type="text" id="add-phoneNumber" placeholder="Phone Number">
-        <input type="text" id="add-dateOfBirth" placeholder="Date of Birth">
+        <input type="date" id="add-dateOfBirth" placeholder="Date of Birth">
         <input type="submit" value="Add">
     </form>
 
-    
-    <div id="editForm">
-        <h3>Edit User</h3>
-        <form action="javascript:void(0);" method="POST" onsubmit="updateItem()">
-            <input type="hidden" id="edit-id">
-            <input type="checkbox" id="edit-isComplete">
-            <input type="text" id="edit-name">
-            <input type="text" id="edit-emailAddress">
-            <input type="text" id="edit-phoneNumber">
-            <input type="text" id="edit-dateOfBirth">
-            <input type="submit" value="Save">
-            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
-        </form>
-    </div>
+    <h2>Edit User </h2>
+    <form onsubmit="editItem(document.getElementById('insert-id').value); return false;">
+        <input type="text" id="insert-id" placeholder="Id">
+        <input type="text" id="edit-name" placeholder="New Name">
+        <input type="text" id="edit-emailAddress" placeholder="New Email Address">
+        <input type="text" id="edit-phoneNumber" placeholder="New Phone Number">
+        <input type="date" id="edit-dateOfBirth" placeholder="New Date of Birth">
+        <input type="submit" value="Save">
+    </form>
+
+    <h2>Delete User</h2>
+    <form onsubmit="deleteUser(document.getElementById('delete-id').value); return false;">
+        <input type="text" id="delete-id" placeholder="Id">
+        <input type="submit" value="Delete">
+    </form>
 
     <p id="counter"></p>
 
     <table>
         <tr>
-            <th>Is Complete?</th>
+            <th>Id</th>
             <th>Name</th>
             <th>Email Address</th>
             <th>Phone Number</th>
@@ -48,6 +49,6 @@
 
     <script src="js/site.js" asp-append-version="true"></script>
     <script type="text/javascript">getUsers();</script>
-    
+
 </body>
 </html>
