@@ -16,14 +16,9 @@ public class OrderConfiguration: IEntityTypeConfiguration<Order>
             HasForeignKey(x => x.UserId).
             OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(x => x.Film).
-           WithMany(x => x.Orders).
-           HasForeignKey(x => x.FilmId).
-           OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(x => x.Card).
-           WithMany(x => x.Orders).
-           HasForeignKey(x => x.CardId).
-           OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(x => x.Tickets).
+            WithOne(x => x.Order).
+            HasForeignKey(x => x.OrderId).
+            OnDelete(DeleteBehavior.Cascade);
     }
 }

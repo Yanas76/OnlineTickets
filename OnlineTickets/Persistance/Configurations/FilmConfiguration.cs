@@ -15,5 +15,10 @@ public class FilmConfiguration: IEntityTypeConfiguration<Film>
           WithMany(x => x.Films).
           HasForeignKey(x => x.CinemaId).
           OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Tickets).
+         WithOne(x => x.Film).
+         HasForeignKey(x => x.FilmId).
+         OnDelete(DeleteBehavior.Cascade);
     }
 }

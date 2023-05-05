@@ -16,7 +16,7 @@ public class OnlineTicketsDbContext: DbContext
     public DbSet<Cinema> Cinemas { get; set; }
     public DbSet<Film> Films { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<Card> Cards { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,7 +24,7 @@ public class OnlineTicketsDbContext: DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new CinemaConfiguration());
-        modelBuilder.ApplyConfiguration(new CardConfiguration());
+        modelBuilder.ApplyConfiguration(new TicketConfiguration());
         modelBuilder.ApplyConfiguration(new FilmConfiguration());
         
     }

@@ -12,6 +12,6 @@
         public Cinema Cinema { get; set; }
         public Guid CinemaId { get; set; }
 
-        public ICollection<Order> Orders = new List<Order>();
+        public ICollection<Ticket> Tickets = new List<Ticket>();
     }
 }

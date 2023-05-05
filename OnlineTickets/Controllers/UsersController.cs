@@ -15,13 +15,12 @@ namespace OnlineTickets.Controllers;
 [ApiController]
 public class UsersController : Controller
 {
-    private readonly OnlineTicketsDbContext _context;
 
+    private readonly OnlineTicketsDbContext _context;
     public UsersController(OnlineTicketsDbContext context)
     {
         _context = context;
     }
-
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -57,7 +56,7 @@ public class UsersController : Controller
         user.Id = Guid.NewGuid();
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return Ok(user);
+        return Ok();
     }
 
 
@@ -77,7 +76,7 @@ public class UsersController : Controller
         User user = userModel.Adapt<User>();
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
-        return Ok(user);
+        return Ok();
     }
 
 

@@ -15,8 +15,8 @@ namespace OnlineTickets.Controllers;
 [ApiController]
 public class OrdersController : Controller
 {
-    private readonly OnlineTicketsDbContext _context;
 
+    private readonly OnlineTicketsDbContext _context;
     public OrdersController(OnlineTicketsDbContext context)
     {
         _context = context;
@@ -49,30 +49,25 @@ public class OrdersController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Create(OrderCreateModel orderModel)
+    public async Task<IActionResult> Create(OrderCreateModel orderModel, Guid userId)
     {
         var userById = await _context.Users.AsNoTracking()
-            .Where(u => u.Id == orderModel.UserId)
+            .Where(u => u.Id == userId)
             .FirstOrDefaultAsync();
 
-        var filmById = await _context.Films.AsNoTracking()
-           .Where(f => f.Id == orderModel.FilmId)
-           .FirstOrDefaultAsync();
-
-        var cardById = await _context.Cards.AsNoTracking()
-           .Where(c => c.Id == orderModel.CardId)
-           .FirstOrDefaultAsync();
-
-        if (userById == null || filmById == null || cardById == null)
+        if (userById == null)
         {
             return NotFound();
         }
 
         Order order = orderModel.Adapt<Order>();
         order.Id = Guid.NewGuid();
+        order.UserId = userById.Id;
+        order.TotalPrice = 0;
+
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
-        return Ok(order);
+        return Ok();
     }
 
 
@@ -92,7 +87,7 @@ public class OrdersController : Controller
         Order order = orderModel.Adapt<Order>();
         _context.Orders.Update(order);
         await _context.SaveChangesAsync();
-        return Ok(order);
+        return Ok();
     }
 
 

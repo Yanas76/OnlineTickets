@@ -15,8 +15,8 @@ namespace OnlineTickets.Controllers;
 [ApiController]
 public class FilmsController : Controller
 {
-    private readonly OnlineTicketsDbContext _context;
 
+    private readonly OnlineTicketsDbContext _context;
     public FilmsController(OnlineTicketsDbContext context)
     {
         _context = context;
@@ -68,7 +68,7 @@ public class FilmsController : Controller
 
         _context.Films.Add(film);
         await _context.SaveChangesAsync();
-        return Ok(film);
+        return Ok();
     }
 
 
@@ -89,7 +89,7 @@ public class FilmsController : Controller
         film.CinemaId = filmById.CinemaId;
         _context.Films.Update(film);
         await _context.SaveChangesAsync();
-        return Ok(film);
+        return Ok();
     }
 
 

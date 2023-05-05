@@ -22,32 +22,6 @@ namespace OnlineTickets.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineTickets.Entities.Card", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CVV")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Owner")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Validity")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cards");
-                });
-
             modelBuilder.Entity("OnlineTickets.Entities.Cinema", b =>
                 {
                     b.Property<Guid>("Id")
@@ -119,7 +93,26 @@ namespace OnlineTickets.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CardId")
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalPrice")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("OnlineTickets.Entities.Ticket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FilmId")
@@ -132,6 +125,9 @@ namespace OnlineTickets.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
@@ -141,18 +137,13 @@ namespace OnlineTickets.Migrations
                     b.Property<int>("Seat")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CardId");
 
                     b.HasIndex("FilmId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("OnlineTickets.Entities.User", b =>
@@ -194,34 +185,32 @@ namespace OnlineTickets.Migrations
 
             modelBuilder.Entity("OnlineTickets.Entities.Order", b =>
                 {
-                    b.HasOne("OnlineTickets.Entities.Card", "Card")
-                        .WithMany("Orders")
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineTickets.Entities.Film", "Film")
-                        .WithMany("Orders")
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OnlineTickets.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Card");
-
-                    b.Navigation("Film");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OnlineTickets.Entities.Card", b =>
+            modelBuilder.Entity("OnlineTickets.Entities.Ticket", b =>
                 {
-                    b.Navigation("Orders");
+                    b.HasOne("OnlineTickets.Entities.Film", "Film")
+                        .WithMany("Tickets")
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineTickets.Entities.Order", "Order")
+                        .WithMany("Tickets")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("OnlineTickets.Entities.Cinema", b =>
@@ -231,7 +220,12 @@ namespace OnlineTickets.Migrations
 
             modelBuilder.Entity("OnlineTickets.Entities.Film", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("OnlineTickets.Entities.Order", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("OnlineTickets.Entities.User", b =>
